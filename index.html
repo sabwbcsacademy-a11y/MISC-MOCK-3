@@ -389,24 +389,28 @@
     // 4. BACKEND STORAGE FUNCTIONS
     // -------------------------------------------------------------
     function saveToGoogleSheet(name, phone, score, correct, wrong, unattempted) {
-        const webAppUrl = "https://script.google.com/macros/s/AKfycbxBinE85bIZ8tzj6zU0-veGlwBzR5AmEWgPdX5bySUMYs2tqwLZBTE3eEBtYlG_pGAGoQ/exec"; // Replace with your Web App URL
-        if (webAppUrl === "YOUR GOOGLE SHEET LINK") return;
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbwiav_zyGZpa-Gayjf0rBI9n05HaGPr-sD7oy3IFsOyONttdcHCgZdNh-HM5pBSjPlpdA/exec";
 
-        fetch(webAppUrl, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ 
-                name: name, 
-                phone: phone, 
-                score: score, 
-                correct: correct, 
-                wrong: wrong, 
-                unattempted: unattempted, 
-                date: new Date().toLocaleString() 
-            })
-        });
-    }
+    const payload = {
+        name: name,
+        phone: phone,
+        score: score,
+        correct: correct,
+        wrong: wrong,
+        unattempted: unattempted,
+        date: new Date().toLocaleString("en-IN")
+    };
+
+    fetch(webAppUrl, {
+        method: "POST",
+        headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(response => console.log("Google Sheet Response Sent!"))
+    .catch(error => console.error("Google Sheet Error:", error));
+}
 
     function saveToFirebase(name, phone, score, correct, wrong, unattempted) {
         if (!db) return;
